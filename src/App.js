@@ -1,10 +1,15 @@
 import React from 'react'
+import Footer from './WalletAuthentication/Footer'
+import Header from './WalletAuthentication/Header'
+import Coinstobuy from './WalletAuthentication/Coinstobuy'
 
 
 function App() {
   return (
     <div>
-      <h1>Hello world!!</h1>
+      <Header />
+      <Coinstobuy />
+      <Footer />
     </div>
   )
 }

@@ -1,0 +1,127 @@
+body {
+  overflow-x: hidden;
+}
+
+.Mainfooter {
+  background: rgb(40,34,43);
+  background: linear-gradient(36deg, rgb(35, 32, 36) 67%, #FF377F 80%,  #9747FF 100%);
+  width: 100%;
+  height: 100%;
+  background-color: red;
+}
+.TopleftFooter {
+  padding: 30px 0 0 40px;
+}
+
+.footer-icons {
+  display: flex;
+}
+
+.artbit {
+  color: crimson;
+  font-size: 24px
+}
+
+.artbit-main {
+  color: rgb(252, 249, 249);
+  font-size: 24px
+}
+
+.twitter {
+  font-size: 30px;
+  color: rgb(62, 64, 68);
+  margin: 40px 20px 0 0 ;
+  cursor: pointer;
+}
+
+.browse-search-div {
+  border: 1px solid rgb(45, 40, 47);
+  display: inline-flex;
+  padding: 0 20px;
+  justify-content: space-between;
+  align-items: center;
+  height: 50px;
+  border-radius: 130px;
+  overflow: hidden;
+  background-color: rgb(45, 40, 47);
+  margin: 40px 0 0 0;
+  color: rgb(192, 191, 191);
+}
+
+.browse-search {
+  border: none;
+  width: 300px;
+  outline: none;
+  font-size: 20px;
+  padding-right: 20px;
+  padding-left: 15px;
+  background-color: transparent;
+}
+
+.browse-btn {
+  border: none;
+}
+
+.browse-search-img {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 25px;
+  background-color: #db0774;
+  cursor: pointer;
+  border-radius: 130px;
+  padding: 4px;
+}
+
+.TopFooter {
+  display: flex ;
+  width: 100%;
+}
+
+.righttopfooter {
+  display: flex;
+  font-family: 'Titillium Web', sans-serif;
+  color: rgb(135, 128, 135);
+  margin-left:  100px;
+}
+
+.topfooter-1 {
+  color: white;
+  padding: 30px 30px 20px 6px;
+}
+
+.toprightfooter {
+  padding: 0px 30px 0px 50px;
+}
+
+.topfooters {
+  padding: 8px;
+}
+
+.Enter-email {
+  color: rgb(135, 128, 135);
+  padding-top: 30px;
+}
+
+/* ================================================================== */
+
+.bottom-footer {
+  margin: 50px 50px 0 50px;
+  border-top: 1px rgb(74, 74, 74) solid ;
+  color: rgb(135, 128, 135);
+  border-bottom: 1px rgb(74, 74, 74) solid ;
+  padding: 20px 0 20px 0;
+  display: flex;
+}
+
+.Terms {
+  padding-right: 20px;
+}
+
+.theBottomest {
+  text-align: center;
+  color: white;
+  padding: 50px;
+}
+
+
