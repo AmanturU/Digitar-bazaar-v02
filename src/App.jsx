@@ -6,6 +6,7 @@ import MainPage from './pages/Main'
 import Coinstobuy from './test/Coinstobuy'
 import Footer from './components/main/Footer'
 import Explore from './pages/Explore'
+import EditProfilePage from './pages/EditProfile'
 
 
 
@@ -19,6 +20,7 @@ function App() {
         <Route path="/buy" element={<Coinstobuy />} />
         <Route path="/footer" element={<Footer />} />
         <Route path="/explore" element={<Explore />} />
+        <Route path="/edit" element={<EditProfilePage />} />
       </Routes>
     </div>
   )

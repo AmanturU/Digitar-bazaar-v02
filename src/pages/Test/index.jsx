@@ -39,7 +39,7 @@ const TestPage = () => {
           </Box>
 
         </Card>
-        <CardNftTimeOff text="Я красивая карточка" image="ссылка на изображение" />
+        <CardNftTimeOff />
 
         <CardNftTimeOn />
         <MiniFollowCard theme="white" />
