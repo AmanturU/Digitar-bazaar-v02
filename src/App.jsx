@@ -10,6 +10,11 @@ import Item from './pages/Create-item'
 import Profile from './pages/Profile'
 import MyCollection from './pages/MyCollection'
 import CollectionStats from './pages/collectionStats'
+import EditProfilePage from './pages/EditProfile'
+import CreateItemPage from './pages/CreateItem'
+import ChooseSellTypePage from './pages/ChooseSellType'
+import CreateCollectionPage from './pages/CreateCollection'
+import DropzoneComponent from './components/dragndrop'
 
 
 function App() {
@@ -26,6 +31,11 @@ function App() {
         <Route path="/Profile" element={<Profile />} />
         <Route path="/MyCollection" element={<MyCollection />} />
         <Route path="/CollectionStats" element={<CollectionStats />} />
+        <Route path="/edit" element={<EditProfilePage />} />
+        <Route path="/createnft" element={<CreateItemPage />} />
+        <Route path="/createcollection" element={<CreateCollectionPage />} />
+        <Route path="/choose" element={<ChooseSellTypePage />} />
+        <Route path="/drag" element={<DropzoneComponent />} />
       </Routes>
     </div>
   )

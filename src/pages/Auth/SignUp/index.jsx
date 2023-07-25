@@ -1,11 +1,103 @@
 import React from 'react'
 
-const SignUp = () => {
+import {
+  Flex,
+  Box,
+  FormControl,
+  FormLabel,
+  Input,
+  InputGroup,
+  HStack,
+  InputRightElement,
+  Stack,
+  Button,
+  Heading,
+  Text,
+  useColorModeValue,
+} from '@chakra-ui/react'
+import { useState } from 'react'
+import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons'
+import { Link } from 'react-router-dom'
+
+const SignUpPage = () => {
+  const [showPassword, setShowPassword] = useState(false)
+
   return (
-    <>
-      <h1>SignUp</h1>
-    </>
+    <Flex
+      minH={'100vh'}
+      align={'center'}
+      justify={'center'}
+      bg={useColorModeValue('gray.50', 'gray.800')}>
+      <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
+        <Stack align={'center'}>
+          <Heading fontSize={'4xl'} textAlign={'center'}>
+            Sign up
+          </Heading>
+          <Text fontSize={'lg'} color={'gray.600'}>
+            Join us to experience all the awesome features we offer ✌️
+          </Text>
+        </Stack>
+        <Box
+          rounded={'lg'}
+          bg={useColorModeValue('white', 'gray.700')}
+          boxShadow={'lg'}
+          p={8}>
+          <Stack spacing={4}>
+            <HStack>
+              <Box>
+                <FormControl id="firstName" isRequired>
+                  <FormLabel>First Name</FormLabel>
+                  <Input type="text" />
+                </FormControl>
+              </Box>
+              <Box>
+                <FormControl id="lastName">
+                  <FormLabel>Last Name</FormLabel>
+                  <Input type="text" />
+                </FormControl>
+              </Box>
+            </HStack>
+            <FormControl id="email" isRequired>
+              <FormLabel>Email address</FormLabel>
+              <Input type="email" />
+            </FormControl>
+            <FormControl id="password" isRequired>
+              <FormLabel>Password</FormLabel>
+              <InputGroup>
+                <Input type={showPassword ? 'text' : 'password'} />
+                <InputRightElement h={'full'}>
+                  <Button
+                    variant={'ghost'}
+                    onClick={() =>
+                      setShowPassword((showPassword) => !showPassword)
+                    }>
+                    {showPassword ? <ViewIcon /> : <ViewOffIcon />}
+                  </Button>
+                </InputRightElement>
+              </InputGroup>
+            </FormControl>
+            <Stack spacing={10} pt={2}>
+              <Button
+                loadingText="Submitting"
+                size="lg"
+                bg={'#FE3796'}
+                color={'white'}
+                _hover={{
+                  bg: '#D92770',
+                }}>
+                Sign up
+              </Button>
+            </Stack>
+            <Stack pt={6}>
+              <Flex align={'center'}>
+                Already a user? <Link to="/auth/signin"><Text ml={'2'} color={'blue.400'}>Login</Text></Link>
+              </Flex>
+            </Stack>
+          </Stack>
+        </Box>
+      </Stack>
+    </Flex>
   )
 }
 
-export default SignUp
+export default SignUpPage
