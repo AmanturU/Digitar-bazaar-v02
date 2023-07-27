@@ -5,7 +5,7 @@ import UserCards from '../../components/users'
 import Btns from '../../components/Buttons/PrimaryBtn'
 import Selection from '../../components/Buttons/selection'
 
-const secondNumberStyle = {
+const Cardstobuycoinswords = {
   color: 'var(--neutral-black, #000)',
   fontFamily: 'Plus Jakarta Sans',
   fontSize: '18px',
