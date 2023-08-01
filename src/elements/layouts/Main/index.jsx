@@ -2,19 +2,41 @@ import React from 'react'
 import { Box, Flex, Text } from '@chakra-ui/react'
 import Navbar from '../../../components/main/Navbar'
 import Footer from '../../../components/main/Footer'
+import { Link, useNavigate } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { getUserAction, setUser } from 'store/slices/user'
 
 const MainLayout = (props) => {
   const { PageHeadline, textPathFirst, textPathSecond, children, ...restProps } = props
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+  const { user } = useSelector(s => s.User)
+  const access_auth = localStorage.getItem('access_auth')
 
-  // alert(`text => ${textPathFirst} text2 => ${textPathSecond}`)
+  const { userData } = useSelector(s => s.User)
+
+  React.useEffect(() => {
+    if (!access_auth) return
+
+    if (!user) {
+      const decodedToken = JSON.parse(atob(access_auth.split('.')[1]))
+
+      // Получаем user_id из объекта с информацией о пользователе
+      const user_id = decodedToken.user_id
+
+      dispatch(setUser(user_id))
+      dispatch(getUserAction(user_id))
+    }
+  }, [user, access_auth])
+
+  const bgStandardImg = 'url(https://s3-alpha-sig.figma.com/img/90c1/c47f/757c88402ba1acb3cd63b2833bd2a4cd?Expires=1691366400&Signature=aQsHHIbgPRiz4dF~TxU-qhwvJd3Q3wSAtQej9yQvhsGIrwOptqe12ij90X3w-E20BQfphFSButQc3aQVnLjrg8UiUcz3nlgX6Jw4MzxmXtEfklQKo701lHbI87eRvBfFqGPVllCMGCUdLdVJbb94mVnmJ6Z66UcgPoHyy5ahNNL-CrWvdwrZTNeHUmvhqHQ2MWXVEJFUc8GFPZnfz3oCiryclOBiWX8jlsQEFbzozqq~h-bxgOdQ-WVWNfpPhOUhTApj0~mWYJp7i0-oatF8lu1JSwxSiUhYiVkDnFoZG9ENagOZA7LnWj~u4dEQqxshnQsP0mfVjt7k9ETpj0gvcQ__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4) center/cover no-repeat'
 
   const basicBoxStyles = {
     width: 'full',
     height: '367px',
-    background: 'url(https://s3-alpha-sig.figma.com/img/90c1/c47f/757c88402ba1acb3cd63b2833bd2a4cd?Expires=1690156800&Signature=nHL9jXKmSvuKxTvsiV3QaDlRuWdrMDiyKBJlV2do2e1036tcQkysWm9Cz2t8E3y2--tqwJJLRt9XSXf12MAgtBCOE4d3btPhLgSClpP-2zElNYa5nymdFnf5My0yPs3hRiG5OjRNSnYYfvib7T2i53vqsFm6d1gg-YY3d7oJuzTjeUAtAjoDtcy3QocajjejeSRwwmxuaUR772c9nm5KlhQ0AQWqgBv9chn89Ey3jtB9JQ6z3kjsGaUq9VBdUNDWitPMHU051TQszrvb1p~ZyzYLSWzzaX9D9WJvx61VNy5WksR3X-XoSgXY387YfHxmxaZeNVXBVKB--0rGCJDoFg__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4) center/cover no-repeat',
+    background: userData ? `url(${userData.cover_image}) center/cover no-repeat` : bgStandardImg,
     flexShrink: 0,
   }
-
 
   const headerStyles = {
     textAlign: 'center',
@@ -22,7 +44,6 @@ const MainLayout = (props) => {
     alignItems: 'center',
     flexShrink: '0',
   }
-
   const headlineTextStyles = {
     color: '#FFF',
     fontFamily: 'Plus Jakarta Sans',
@@ -48,25 +69,31 @@ const MainLayout = (props) => {
     lineHeight: '21px',
   }
 
+
+
   return (
-    <Box w={'full'} h={'full'} m={0} p={0}>
+    <Box w={'full'} h={'full'} m={0} p={0} >
       {/* Header */}
-      <Box sx={basicBoxStyles}>
-        <Navbar />
+      <Box sx={basicBoxStyles}  >
+        <Box h={'full'} backdropFilter="auto"
+          backdropBlur="3px">
+          <Navbar />
 
-        <Box sx={headerStyles} pt={'24'}>
-          <Text sx={headlineTextStyles}>{PageHeadline ? PageHeadline : 'Unknown'}</Text>
-          <Flex w={'full'} justifyContent={'center'} alignItems={'center'}>
-            <Text sx={textStylesFirst}>{textPathFirst ? textPathFirst : 'Empty'}ㅤ/ㅤ</Text>
-            <Text sx={textStylesSecond}>{textPathSecond ? textPathSecond : 'Empty page'}</Text>
-          </Flex>
+          <Box sx={headerStyles} pt={'24'} >
+            <Text sx={headlineTextStyles}>{PageHeadline ? PageHeadline : 'Unknown'}</Text>
+            <Flex w={'full'} justifyContent={'center'} alignItems={'center'} >
+              <Text sx={textStylesFirst}>{textPathFirst ? textPathFirst : 'Empty'}ㅤ/ㅤ</Text>
+              <Text sx={textStylesSecond}>{textPathSecond ? textPathSecond : 'Empty page'}</Text>
+            </Flex>
+          </Box>
+
         </Box>
-
       </Box>
 
       <Box minH={'100vh'}>
-        {children}
-
+        {
+          access_auth ? children : <Flex>You do not have access to this page, please<Link to="/auth/signup"><Text ml={'2'} color={'blue.500'} _hover={{ as: 'u' }}>Sign In</Text></Link></Flex>
+        }
       </Box>
       <Footer />
     </Box>

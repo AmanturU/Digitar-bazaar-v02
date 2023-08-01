@@ -22,7 +22,9 @@ import {
 import { HamburgerIcon, CloseIcon, ChevronDownIcon } from '@chakra-ui/icons'
 import { BiCart } from 'react-icons/bi'
 import { PiMoon } from 'react-icons/pi'
-
+import { signOut } from 'store/slices/auth'
+import { useDispatch, useSelector } from 'react-redux'
+import { Link as LinkRRD, useNavigate } from 'react-router-dom'
 const Links = [
   {
     name: 'Explore',
@@ -70,7 +72,19 @@ const NavLink = ({ children }) => (
 
 const Navbar = () => {
   const { isOpen, onOpen, onClose } = useDisclosure()
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
 
+  const { userData } = useSelector(s => s.User)
+
+  const onSignOut = React.useCallback(() => {
+    navigate('/auth/')
+
+    localStorage.removeItem('access_auth')
+    localStorage.removeItem('refresh_auth')
+
+    dispatch(signOut())
+  }, [])
 
   const logoStylesFirst = {
     color: '#FFF',
@@ -159,7 +173,6 @@ const Navbar = () => {
                 <Input
                   focusBorderColor="pink.400"
                   placeholder="Search here"
-                  color={'white'}
                 />
                 <InputRightElement mr={'1'}>
                   <IconButton
@@ -248,10 +261,8 @@ const Navbar = () => {
               >
                 <Avatar
                   size={'md'}
-                  src={
-                    'https://images.unsplash.com/photodd-1493666438817-866a91353ca9?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=b616b2c5b373a80ffc9636ba24f7a4a9'
-                  }
-                  name="John Doe"
+                  src={userData?.avatar}
+                  name={userData?.display_name}
                 />
               </MenuButton>
 
@@ -264,9 +275,9 @@ const Navbar = () => {
                 {/* Nickname */}
                 <MenuItem flexDirection="column" mb={'4'}>
                   <Box textAlign={'left'} w={'100%'}>
-                    <Text sx={menuStyles.headerTextStyles}>John Doe</Text>
+                    <Text sx={menuStyles.headerTextStyles}>{userData?.display_name}</Text>
                     <Flex>
-                      <Text sx={menuStyles.idTextStyles} mr={'1'}>@johndoe1999</Text>
+                      <Text sx={menuStyles.idTextStyles} mr={'1'}>@{userData?.username}</Text>
                       <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 17 17" fill="none">
                         <path d="M12.0711 9.79858C12.0861 10.0481 12.3467 10.2164 12.5584 10.0835C13.8738 9.25826 14.7484 7.79506 14.7484 6.1276C14.7484 3.55028 12.659 1.46094 10.0817 1.46094C8.41424 1.46094 6.95104 2.33547 6.12575 3.6509C5.99291 3.86263 6.16121 4.12314 6.41072 4.13814C9.39461 4.31753 11.8917 6.81727 12.0711 9.79858Z" fill="#FE3796" />
                         <path d="M10.7484 10.1276C10.7484 12.7049 8.65903 14.7943 6.08171 14.7943C3.50438 14.7943 1.41504 12.7049 1.41504 10.1276C1.41504 7.55028 3.50438 5.46094 6.08171 5.46094C8.65903 5.46094 10.7484 7.55028 10.7484 10.1276Z" fill="#FE3796" />
@@ -278,9 +289,9 @@ const Navbar = () => {
                 <MenuItem flexDirection="column">
                   <Box textAlign={'left'} w={'100%'}>
                     <Text sx={menuStyles.balanceTextStyles}>Balance</Text>
-                    <Flex>
-                      <Text sx={menuStyles.balanceNumbersStyles} mr={'2'}>4.689 ETH</Text>
-                      <svg xmlns="http://www.w3.org/2000/svg" width="31" height="31" viewBox="0 0 31 31" fill="none">
+                    <Flex alignItems={'center'}>
+                      <Text sx={menuStyles.balanceNumbersStyles} mr={'2'}>{userData?.balance} ETH</Text>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 31 31" fill="none">
                         <path d="M15.082 30.6279C23.3663 30.6279 30.082 23.9122 30.082 15.6279C30.082 7.34366 23.3663 0.62793 15.082 0.62793C6.79776 0.62793 0.0820312 7.34366 0.0820312 15.6279C0.0820312 23.9122 6.79776 30.6279 15.082 30.6279Z" fill="#627EEA" />
                         <path d="M15.168 5.87793V13.0846L21.2591 15.8064L15.168 5.87793Z" fill="white" fillOpacity="0.602" />
                         <path d="M15.1681 5.87793L9.07617 15.8064L15.1681 13.0846V5.87793Z" fill="white" />
@@ -320,7 +331,7 @@ const Navbar = () => {
                     <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
                       <path d="M10.082 14.7946C10.3181 14.7946 10.5162 14.7146 10.6762 14.5546C10.8356 14.3952 10.9154 14.1974 10.9154 13.9613V11.4613H13.4154C13.6515 11.4613 13.8493 11.3813 14.0087 11.2213C14.1687 11.0618 14.2487 10.864 14.2487 10.6279C14.2487 10.3918 14.1687 10.1938 14.0087 10.0338C13.8493 9.87432 13.6515 9.7946 13.4154 9.7946H10.9154V7.2946C10.9154 7.05849 10.8356 6.86043 10.6762 6.70043C10.5162 6.54099 10.3181 6.46126 10.082 6.46126C9.84592 6.46126 9.64814 6.54099 9.4887 6.70043C9.3287 6.86043 9.2487 7.05849 9.2487 7.2946V9.7946H6.7487C6.51259 9.7946 6.31453 9.87432 6.15453 10.0338C5.99509 10.1938 5.91536 10.3918 5.91536 10.6279C5.91536 10.864 5.99509 11.0618 6.15453 11.2213C6.31453 11.3813 6.51259 11.4613 6.7487 11.4613H9.2487V13.9613C9.2487 14.1974 9.3287 14.3952 9.4887 14.5546C9.64814 14.7146 9.84592 14.7946 10.082 14.7946ZM4.2487 18.1279C3.79036 18.1279 3.39786 17.9649 3.0712 17.6388C2.74509 17.3121 2.58203 16.9196 2.58203 16.4613V4.7946C2.58203 4.33626 2.74509 3.94376 3.0712 3.6171C3.39786 3.29099 3.79036 3.12793 4.2487 3.12793H15.9154C16.3737 3.12793 16.7662 3.29099 17.0929 3.6171C17.419 3.94376 17.582 4.33626 17.582 4.7946V16.4613C17.582 16.9196 17.419 17.3121 17.0929 17.6388C16.7662 17.9649 16.3737 18.1279 15.9154 18.1279H4.2487ZM4.2487 16.4613H15.9154V4.7946H4.2487V16.4613ZM4.2487 16.4613V4.7946V16.4613Z" fill="#777E91" />
                     </svg>
-                    <Text sx={menuStyles.mainMenuItemsStyles} ml={'2'}>Create</Text>
+                    <LinkRRD to={'/createnft'} ><Text sx={menuStyles.mainMenuItemsStyles} ml={'2'}>Create</Text></LinkRRD>
                   </Flex>
                 </MenuItem>
                 {/* Settings */}
@@ -345,7 +356,7 @@ const Navbar = () => {
                       <path fillRule="evenodd" clipRule="evenodd" d="M9.27261 13.1282C9.73252 13.1108 10.1194 13.4696 10.1368 13.9295C10.1759 14.9663 10.2309 15.7231 10.285 16.2656C10.3382 16.8 10.6608 17.1214 11.1104 17.1764C11.6406 17.2412 12.3886 17.2943 13.4149 17.2943C14.4414 17.2943 15.1893 17.2412 15.7195 17.1764C16.1689 17.1215 16.4917 16.7998 16.5449 16.2654C16.6452 15.2583 16.7483 13.5183 16.7483 10.6276C16.7483 7.73692 16.6452 5.99695 16.5449 4.98983C16.4917 4.45538 16.1689 4.13374 15.7195 4.0788C15.1893 4.01398 14.4414 3.96094 13.4149 3.96094C12.3886 3.96094 11.6406 4.01398 11.1104 4.07879C10.6608 4.13376 10.3382 4.45525 10.285 4.98958C10.2309 5.53215 10.1759 6.28888 10.1368 7.32571C10.1194 7.78562 9.73252 8.14437 9.27261 8.12701C8.8127 8.10965 8.45395 7.72274 8.47131 7.26283C8.51148 6.19864 8.56844 5.40713 8.6265 4.82436C8.74854 3.59923 9.60272 2.58402 10.9082 2.42444C11.5159 2.35016 12.3323 2.29427 13.4149 2.29427C14.4976 2.29427 15.3141 2.35016 15.9217 2.42445C17.2273 2.58405 18.0813 3.59973 18.2034 4.82463C18.3108 5.90317 18.4149 7.70133 18.4149 10.6276C18.4149 13.5539 18.3108 15.352 18.2034 16.4306C18.0813 17.6555 17.2273 18.6712 15.9218 18.8308C15.3141 18.905 14.4976 18.9609 13.4149 18.9609C12.3323 18.9609 11.5159 18.905 10.9082 18.8308C9.60272 18.6712 8.74854 17.656 8.6265 16.4308C8.56844 15.8481 8.51148 15.0566 8.47131 13.9924C8.45395 13.5325 8.8127 13.1456 9.27261 13.1282Z" fill="#777E91" />
                       <path fillRule="evenodd" clipRule="evenodd" d="M6.08828 12.9553C6.41372 13.2808 6.41372 13.8084 6.08828 14.1339C5.76284 14.4593 5.2352 14.4593 4.90977 14.1339L1.9931 11.2172C1.66766 10.8917 1.66766 10.3641 1.9931 10.0387L4.90977 7.12201C5.2352 6.79657 5.76284 6.79657 6.08828 7.12201C6.41372 7.44744 6.41372 7.97508 6.08828 8.30052L4.5942 9.7946H12.5824C13.0426 9.7946 13.4157 10.1677 13.4157 10.6279C13.4157 11.0882 13.0426 11.4613 12.5824 11.4613L4.5942 11.4613L6.08828 12.9553Z" fill="#777E91" />
                     </svg>
-                    <Text sx={menuStyles.mainMenuItemsStyles} ml={'2'}>Log Out</Text>
+                    <Text sx={menuStyles.mainMenuItemsStyles} onClick={onSignOut} ml={'2'}>Log Out</Text>
                   </Flex>
                 </MenuItem>
               </MenuList>

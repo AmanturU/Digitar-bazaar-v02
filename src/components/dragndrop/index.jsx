@@ -1,12 +1,11 @@
-import { Box, Text } from '@chakra-ui/react'
-import React, { useCallback, useMemo } from 'react'
+
+import React, { useCallback, useMemo, useState } from 'react'
 import { useDropzone } from 'react-dropzone'
-import SecondBtn from '../Buttons/SecondBtn'
+import { useForm } from 'react-hook-form'
 
 
 function DropzoneComponent(props) {
-  const { padding, children, ...restProps } = props
-
+  const { padding, children, upload, multiple, ...restProps } = props
   const boxPadding = padding ? padding : '0'
 
   const baseStyle = {
@@ -35,7 +34,10 @@ function DropzoneComponent(props) {
   }
 
   const onDrop = useCallback(acceptedFiles => {
-    console.log(acceptedFiles)
+    // console.log(acceptedFiles)
+    if (acceptedFiles.length > 0) {
+      upload(acceptedFiles[0])
+    }
   }, [])
 
   const {
@@ -46,7 +48,10 @@ function DropzoneComponent(props) {
     isDragReject,
   } = useDropzone({
     onDrop,
-    accept: ['image/jpeg', 'image/png'],
+    multiple: multiple ? multiple : false,
+    accept: {
+      'image/*': ['.jpeg', '.jpg', '.png'],
+    },
   })
 
   const style = useMemo(() => ({
@@ -62,7 +67,7 @@ function DropzoneComponent(props) {
 
   return (
     <div {...getRootProps({ style })}>
-      <input {...getInputProps()} />
+      <input ref={props.inputRef} {...getInputProps()} />
 
       <>
         {children}

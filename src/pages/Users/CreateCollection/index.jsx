@@ -1,19 +1,17 @@
 import React, { useState } from 'react'
-import MainLayout from '../../elements/layouts/Main'
+import MainLayout from 'elements/layouts/Main'
 
 import { Avatar, Box, Button, Flex, Image, Input, InputGroup, InputRightElement, Popover, PopoverArrow, PopoverBody, PopoverCloseButton, PopoverContent, PopoverHeader, PopoverTrigger, Select, Text, Textarea } from '@chakra-ui/react'
-import PrimaryBtn from '../../components/Buttons/PrimaryBtn'
-import CardNftTimeOff from '../../components/Cards/CardNFT_timeOff'
-import DropzoneComponent from '../../components/dragndrop'
-import ThirdBtn from '../../components/Buttons/ThirdBtn'
-import { AiOutlineInfoCircle } from 'react-icons/ai'
-import { Link } from 'react-router-dom'
-import SecondBtn from '../../components/Buttons/SecondBtn'
-
-const CreateItemPage = () => {
+import PrimaryBtn from 'components/Buttons/PrimaryBtn'
+import DropzoneComponent from 'components/dragndrop'
+import ThirdBtn from 'components/Buttons/ThirdBtn'
+import SecondBtn from 'components/Buttons/SecondBtn'
 
 
-  const CreateItemPageStyles = {
+const CreateCollectionPage = () => {
+
+
+  const CreateCollectionPageStyles = {
     inputStyles: {
       padding: '17px 20px',
       borderRadius: '20px',
@@ -27,7 +25,7 @@ const CreateItemPage = () => {
         fontStyle: 'normal',
         fontWeight: '700',
         lineHeight: '30px',
-        marginBottom: '15px',
+        // marginBottom: '15px',
       },
       secondHeaderText: {
         color: '#000',
@@ -107,22 +105,25 @@ const CreateItemPage = () => {
 
 
   return (
-    <MainLayout PageHeadline="Create Item" textPathFirst="Home" textPathSecond="Create Item">
+    <MainLayout PageHeadline="Create Collection" textPathFirst="Home" textPathSecond="Create Collection">
       <Flex mt={'60px'} px={'26.5%'}>
         {/* leftMainBlock */}
         <Box w={'38%'}>
           <Box>
-            <Text sx={CreateItemPageStyles.textStyles.headerText}>Preview Item</Text>
-            <Text sx={CreateItemPageStyles.leftBlock.grayText} w={'150px'} my={'10px'}>Your NFT will look like this</Text>
+            <Flex sx={CreateCollectionPageStyles.textStyles.headerText}>Upload Avatar <Text sx={CreateCollectionPageStyles.textStyles.requiredIconStyles}>*</Text></Flex>
+            <Text sx={CreateCollectionPageStyles.leftBlock.grayText} mt={'5px'} mb={'15px'}>Drag or choose your file to upload</Text>
           </Box>
-          <CardNftTimeOff />
+          <DropzoneComponent padding="0 0 10px 0">
+            <Image p={'10px'} borderRadius={'3xl'} src="https://s3-alpha-sig.figma.com/img/ff63/767a/ebbd76404340ee5ae9ebde9ad07b42f2?Expires=1690761600&Signature=LmSDwpygd7SW1NcLRbhlAyCxL-KKaYZ7M1TGslT4Oe-mLZs8Fq08hadp8r67QTbBD0kxIY3ouIROgek4iY6dKIYbvchoUcMHuheD5Wf9rMWtmb-SNOJe0z4plUatToMzW5pdavsZKoD4qBHCFj8wHIdt991z2q2WemnLQNT38fQaO7WxvUVT5BHHpUDs2uRB7gKCZGht1-CfNhNhpwRbMPo7zAWUGm~oIjeTC9hcj5kj-FybY9W4jVN5xAY~JQ0ubMlvXURY~sXNjOKFi26p2XqqJnXa0gJcaP7sk9LKZJ0djkj2pHiWAKnrrlBmICzmL3FfdsP7Q5O3sYR5XbUheQ__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4" />
+            <SecondBtn>Upload New Photo</SecondBtn>
+          </DropzoneComponent>
         </Box>
 
         {/* RightMainBlock */}
-        <Box ml={'10px'}>
+        <Box ml={'20px'}>
           {/* file upload */}
           <Box mb={'8'}>
-            <Text sx={CreateItemPageStyles.textStyles.headerText}>Choose Your Cover Image</Text>
+            <Text sx={CreateCollectionPageStyles.textStyles.headerText}>Choose Your Cover Image</Text>
             <DropzoneComponent padding="64px 135px">
               <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24" fill="none">
                 <path fillRule="evenodd" clipRule="evenodd" d="M3.56934 5C3.56934 2.79086 5.3602 1 7.56934 1H15.9125C16.9733 1 17.9908 1.42143 18.7409 2.17157L20.3978 3.82843C21.1479 4.57857 21.5693 5.59599 21.5693 6.65685V19C21.5693 21.2091 19.7785 23 17.5693 23H7.56934C5.3602 23 3.56934 21.2091 3.56934 19V5ZM19.5693 8V19C19.5693 20.1046 18.6739 21 17.5693 21H7.56934C6.46477 21 5.56934 20.1046 5.56934 19V5C5.56934 3.89543 6.46477 3 7.56934 3H14.5693V5C14.5693 6.65685 15.9125 8 17.5693 8H19.5693ZM19.4584 6C19.3602 5.7176 19.199 5.45808 18.9836 5.24264L17.3267 3.58579C17.1113 3.37035 16.8517 3.20914 16.5693 3.11094V5C16.5693 5.55228 17.0171 6 17.5693 6H19.4584Z" fill="#777E91" />
@@ -137,7 +138,7 @@ const CreateItemPage = () => {
 
           {/* sell method */}
           <Box mb={'9'}>
-            <Flex sx={CreateItemPageStyles.textStyles.headerText}>Select Method<Text sx={CreateItemPageStyles.textStyles.requiredIconStyles}>*</Text></Flex>
+            <Flex sx={CreateCollectionPageStyles.textStyles.headerText}>Select Method<Text sx={CreateCollectionPageStyles.textStyles.requiredIconStyles}>*</Text></Flex>
             <Box display="flex" justifyContent="center" >
               <ThirdBtn
                 mr={'4'}
@@ -162,20 +163,20 @@ const CreateItemPage = () => {
 
           {/* title */}
           <Box mb={'9'}>
-            <Flex sx={CreateItemPageStyles.textStyles.headerText}>Title<Text sx={CreateItemPageStyles.textStyles.requiredIconStyles}>*</Text></Flex>
-            <Input placeholder="e.g: Crypto Hunks" sx={CreateItemPageStyles.inputStyles} border={'none'} size="lg" />
+            <Flex sx={CreateCollectionPageStyles.textStyles.headerText}>Title<Text sx={CreateCollectionPageStyles.textStyles.requiredIconStyles}>*</Text></Flex>
+            <Input placeholder="e.g: Crypto Hunks" sx={CreateCollectionPageStyles.inputStyles} border={'none'} size="lg" />
           </Box>
 
           {/* custom url */}
           <Box mb={'9'}>
-            <Flex sx={CreateItemPageStyles.textStyles.headerText}>External Link<Text sx={CreateItemPageStyles.textStyles.requiredIconStyles}>*</Text></Flex>
-            <Input placeholder="e.g: https://yoursite.io/item/123" sx={CreateItemPageStyles.inputStyles} border={'none'} size="lg" />
+            <Flex sx={CreateCollectionPageStyles.textStyles.headerText}>External Link<Text sx={CreateCollectionPageStyles.textStyles.requiredIconStyles}>*</Text></Flex>
+            <Input placeholder="e.g: https://yoursite.io/item/123" sx={CreateCollectionPageStyles.inputStyles} border={'none'} size="lg" />
           </Box>
 
           {/* despcription */}
           <Box mb={'9'}>
-            <Flex sx={CreateItemPageStyles.textStyles.headerText}>Description*<Text sx={CreateItemPageStyles.textStyles.requiredIconStyles}>*</Text></Flex>
-            <Textarea placeholder="e.g: This is a very limited item" sx={CreateItemPageStyles.inputStyles} border={'none'} size="lg" rows={'8'} />
+            <Flex sx={CreateCollectionPageStyles.textStyles.headerText}>Description*<Text sx={CreateCollectionPageStyles.textStyles.requiredIconStyles}>*</Text></Flex>
+            <Textarea placeholder="e.g: This is a very limited item" sx={CreateCollectionPageStyles.inputStyles} border={'none'} size="lg" rows={'8'} />
           </Box>
 
 
@@ -186,7 +187,7 @@ const CreateItemPage = () => {
               {
                 selectedMethod === null && (
                   <>
-                    <Flex sx={CreateItemPageStyles.textStyles.headerText}>Please choose the method of sale
+                    <Flex sx={CreateCollectionPageStyles.textStyles.headerText}>Please choose the method of sale
                     </Flex>
 
                     <Flex>
@@ -206,7 +207,7 @@ const CreateItemPage = () => {
               {
                 selectedMethod === 'fixed' && (
                   <>
-                    <Flex sx={CreateItemPageStyles.textStyles.headerText}>Fixed Price<Text sx={CreateItemPageStyles.textStyles.requiredIconStyles}>*</Text>
+                    <Flex sx={CreateCollectionPageStyles.textStyles.headerText}>Fixed Price<Text sx={CreateCollectionPageStyles.textStyles.requiredIconStyles}>*</Text>
                     </Flex>
 
                     <Flex>
@@ -226,7 +227,7 @@ const CreateItemPage = () => {
               {
                 selectedMethod === 'auction' && (
                   <>
-                    <Flex sx={CreateItemPageStyles.textStyles.headerText}>Initial auction price<Text sx={CreateItemPageStyles.textStyles.requiredIconStyles}>*</Text>
+                    <Flex sx={CreateCollectionPageStyles.textStyles.headerText}>Initial auction price<Text sx={CreateCollectionPageStyles.textStyles.requiredIconStyles}>*</Text>
                     </Flex>
 
                     <Flex>
@@ -247,22 +248,22 @@ const CreateItemPage = () => {
 
             {/* supply */}
             <Box mb={'9'}>
-              <Flex sx={CreateItemPageStyles.textStyles.headerText}>Supply<Text sx={CreateItemPageStyles.textStyles.requiredIconStyles}>*</Text></Flex>
-              <Input placeholder="1" sx={CreateItemPageStyles.inputStyles} border={'none'} size="lg" />
+              <Flex sx={CreateCollectionPageStyles.textStyles.headerText}>Supply<Text sx={CreateCollectionPageStyles.textStyles.requiredIconStyles}>*</Text></Flex>
+              <Input placeholder="1" sx={CreateCollectionPageStyles.inputStyles} border={'none'} size="lg" />
             </Box>
           </Flex>
 
           {/* royalties */}
           <Box mb={'9'}>
-            <Flex sx={CreateItemPageStyles.textStyles.headerText}>Royalties<Text sx={CreateItemPageStyles.textStyles.requiredIconStyles}>*</Text></Flex>
-            <Input placeholder="Maximum is 70%" sx={CreateItemPageStyles.inputStyles} border={'none'} size="lg" />
+            <Flex sx={CreateCollectionPageStyles.textStyles.headerText}>Royalties<Text sx={CreateCollectionPageStyles.textStyles.requiredIconStyles}>*</Text></Flex>
+            <Input placeholder="Maximum is 70%" sx={CreateCollectionPageStyles.inputStyles} border={'none'} size="lg" />
           </Box>
 
           {/* Collection */}
-          <Box mb={'9'}>
-            <Flex sx={CreateItemPageStyles.textStyles.headerText} alignItems={'center'}
+          {/* <Box mb={'9'}>
+            <Flex sx={CreateCollectionPageStyles.textStyles.headerText} alignItems={'center'}
             >Collection
-              <Text sx={CreateItemPageStyles.textStyles.requiredIconStyles}
+              <Text sx={CreateCollectionPageStyles.textStyles.requiredIconStyles}
               >*</Text>
               <Popover placement="top-start">
                 <PopoverTrigger>
@@ -272,7 +273,7 @@ const CreateItemPage = () => {
                   <PopoverHeader fontWeight="semibold">About the collection</PopoverHeader>
                   <PopoverArrow />
                   <PopoverCloseButton />
-                  <PopoverBody sx={CreateItemPageStyles.textStyles.selectText}>
+                  <PopoverBody sx={CreateCollectionPageStyles.textStyles.selectText}>
                     <Text fontSize={'12px'}>
                       If you want to create a new collection that will automatically appear in the list below, please visit
                     </Text>
@@ -286,21 +287,34 @@ const CreateItemPage = () => {
               </Popover>
             </Flex>
 
-            <Select sx={CreateItemPageStyles.textStyles.selectText}>
+            <Select sx={CreateCollectionPageStyles.textStyles.selectText}>
               <option value="ETH">Collection first</option>
               <option value="BTC">Collection second</option>
               <option value="LTC">Collection third</option>
               <option value="DOGE">Collection fourth</option>
             </Select>
-          </Box>
+          </Box> */}
 
 
         </Box>
       </Flex >
-      <Box w={'full'} h={'100px'} mt={'25px'} mb={'100px'} display={'flex'} justifyContent={'center'} alignItems={'flex-start'}><PrimaryBtn>Explore</PrimaryBtn></Box>
+      <Box
+        w={'full'}
+        h={'100px'}
+        mt={'25px'}
+        mb={'100px'}
+        display={'flex'}
+        justifyContent={'center'}
+        alignItems={'flex-start'}>
+        <PrimaryBtn
+          padding="11px 43px;"
+        >
+          Create
+        </PrimaryBtn>
+      </Box>
 
     </MainLayout >
   )
 }
 
-export default CreateItemPage
+export default CreateCollectionPage

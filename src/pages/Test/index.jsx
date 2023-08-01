@@ -10,15 +10,21 @@ import CardNftTimeOn from '../../components/Cards/CardNFT_timeOn'
 import MiniFollowCard from '../../components/Cards/MiniFollowCard'
 import CardCollection from '../../components/Cards/CardCollection'
 import MainLayout from '../../elements/layouts/Main'
+import { useSelector } from 'react-redux'
 
 const TestPage = () => {
+
+  const {
+    selectAccessToken,
+  } = useSelector(s => s.Auth)
+
   return (
     <MainLayout PageHeadline="Test Page" textPathFirst="Home" textPathSecond="Test page" w={'full'} h={'full'}>
-
 
       <Wrap mt={'50px'} justify="center" spacing={4}>
         <Card w={'lg'} mt={'8'} justify={'center'} align={'center'} alignItems={'center'} backgroundColor={'gray.400'}>
           <Text fontSize={'2xl'} className="mb-11" >Plus Jakarta Sans</Text>
+          <Text fontSize={'9xl'}>{selectAccessToken}</Text>
           <Box m={2}>
             <PrimaryBtn width="200px" disabled>
               Button
