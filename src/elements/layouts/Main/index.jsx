@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getUserAction, setUser } from 'store/slices/user'
 
 const MainLayout = (props) => {
-  const { PageHeadline, textPathFirst, textPathSecond, children, ...restProps } = props
+  const { PageHeadline, textPathFirst, textPathSecond, children, minHehe, ...restProps } = props
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const { user } = useSelector(s => s.User)
@@ -34,7 +34,7 @@ const MainLayout = (props) => {
   const basicBoxStyles = {
     width: 'full',
     height: '367px',
-    background: userData ? `url(${userData.cover_image}) center/cover no-repeat` : bgStandardImg,
+    background: userData?.cover_image ? `url(${userData.cover_image}) center/cover no-repeat` : bgStandardImg,
     flexShrink: 0,
   }
 
@@ -90,7 +90,7 @@ const MainLayout = (props) => {
         </Box>
       </Box>
 
-      <Box minH={'100vh'}>
+      <Box minH={minHehe ? minHehe : '100vh'}>
         {
           access_auth ? children : <Flex>You do not have access to this page, please<Link to="/auth/signup"><Text ml={'2'} color={'blue.500'} _hover={{ as: 'u' }}>Sign In</Text></Link></Flex>
         }

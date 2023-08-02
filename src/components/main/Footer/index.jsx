@@ -87,7 +87,7 @@ const FooterStyles = {
       filter: 'blur(182.5px)',
       position: 'absolute',
       top: '100px',
-      right: '-20px',
+      // right: '-20px',
     },
   },
   textStyles: {

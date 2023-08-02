@@ -8,8 +8,8 @@ export const UsersRoutes = () => {
   return (
     <Routes>
       {/* <Route path="/:id" element={<Users.Profile />} /> */}
-      <Route path="/:id/createItem" element={<Users.CreateItemPage />} />
-      <Route path="/:id/createCollection" element={<Users.CreateCollectionPage />} />
+      {/* <Route path="/:id/createItem" element={<Users.CreateItemPage />} />
+      <Route path="/:id/createCollection" element={<Users.CreateCollectionPage />} /> */}
       <Route path="/:id/settings" element={<Users.EditProfilePage />} />
     </Routes>
   )

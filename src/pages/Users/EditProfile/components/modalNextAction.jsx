@@ -1,10 +1,13 @@
 import { Box, Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text } from '@chakra-ui/react'
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 
 const NextAction = ({
   onClose,
   isOpen,
 }) => {
+  const navigate = useNavigate()
+
   const navigateToMain = () => {
     // navigate(`/users/${userIdJWT}/settings`)
     console.log('1')
@@ -16,9 +19,8 @@ const NextAction = ({
     console.log('2')
   }
   const navigateToCreate = () => {
-    // onClose()
-    // navigate('/')
-    console.log('3')
+    navigate('/create/')
+    onClose()
   }
   const navigateToExplore = () => {
     // onClose()

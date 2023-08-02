@@ -8,6 +8,7 @@ const initialState = {
   // user
   user_id: null,
   userData: null,
+
   getUserStatus: STATUS.IDLE,
   getUserError: null,
 
@@ -16,6 +17,16 @@ const initialState = {
 
   updateUserPasswordStatus: STATUS.IDLE,
   updateUserPasswordError: null,
+
+  createItemStatus: STATUS.IDLE,
+  createItemError: null,
+
+  createCollectionStatus: STATUS.IDLE,
+  createCollectionError: null,
+
+  collectionsData: null,
+  getUserCollectionStatus: STATUS.IDLE,
+  getUserCollectionError: null,
 }
 
 export const getUserAction = createAsyncThunk('users/getOne', async (userId) => {
@@ -26,6 +37,17 @@ export const getUserAction = createAsyncThunk('users/getOne', async (userId) => 
     throw new Error(Object.values(error.response.data.data)[0].message)
   }
 })
+
+export const getUserCollectionsList = createAsyncThunk('user/collections', async (userId) => {
+  try {
+    const { data } = await serverbase.get('/collections_nft/')
+    // const userCollections = data.filter((collection) => collection.owner === userId)
+    return data
+  } catch (error) {
+    throw new Error(Object.values(error.response.data.data)[0].message)
+  }
+})
+
 
 export const updateUserAction = createAsyncThunk('users/update', async ({ userId, formData }) => {
   try {
@@ -56,6 +78,70 @@ export const updateUserPasswordAction = createAsyncThunk(
       const options = {
         method: 'PATCH',
         url: `/users/${userId}/update_password/`,
+        data: formData,
+        headers: {
+          Authorization: `Bearer ${formattedToken}`, // Добавляем токен в заголовок
+        },
+      }
+      const { data } = await serverbase(options) // Используем serverbase с переданными опциями
+
+      return data
+    } catch (error) {
+      throw new Error(Object.values(error.response.data.data)[0].message)
+    }
+  },
+)
+
+export const createItemAction = createAsyncThunk(
+  'users/createItem',
+  async ({ data, image, token }) => {
+
+    const formData = new FormData()
+    const formattedToken = token.replace(/"/g, '')
+
+    Object.entries(data).forEach(([key, value]) => {
+      formData.append(key, value)
+      formData.append('image', image)
+      formData.append('collection_id', 1)
+    })
+
+    try {
+      // Опции для запроса
+      const options = {
+        method: 'POST',
+        url: '/nft/',
+        data: formData,
+        headers: {
+          Authorization: `Bearer ${formattedToken}`, // Добавляем токен в заголовок
+        },
+      }
+      console.log(formData)
+      const { data } = await serverbase(options) // Используем serverbase с переданными опциями
+
+      return data
+    } catch (error) {
+      throw new Error(Object.values(error.response.data.data)[0].message)
+    }
+  },
+)
+
+export const createCollectionAction = createAsyncThunk(
+  'users/createCollection',
+  async ({ data, image, token }) => {
+
+    const formData = new FormData()
+    const formattedToken = token.replace(/"/g, '')
+
+    Object.entries(data).forEach(([key, value]) => {
+      formData.append(key, value)
+      formData.append('image', image)
+    })
+
+    try {
+      // Опции для запроса
+      const options = {
+        method: 'POST',
+        url: '/collections_nft/',
         data: formData,
         headers: {
           Authorization: `Bearer ${formattedToken}`, // Добавляем токен в заголовок
@@ -131,6 +217,49 @@ export const userSlice = createSlice({
       .addCase(updateUserPasswordAction.rejected, (state, action) => {
         state.updateUserPasswordStatus = STATUS.FAILED
         state.updateUserPasswordError = action.error.message
+      })
+
+      // Обработчик для createItemAction
+      .addCase(createItemAction.pending, state => {
+        state.createItemStatus = STATUS.PENDING
+        state.createItemError = null
+      })
+      .addCase(createItemAction.fulfilled, (state) => {
+        state.createItemStatus = STATUS.SUCCEEDED
+        state.createItemError = null
+      })
+      .addCase(createItemAction.rejected, (state, action) => {
+        state.createItemStatus = STATUS.FAILED
+        state.createItemError = action.error.message
+      })
+
+      // Обработчик для createCollectionAction
+      .addCase(createCollectionAction.pending, state => {
+        state.createCollectionStatus = STATUS.PENDING
+        state.createCollectionError = null
+      })
+      .addCase(createCollectionAction.fulfilled, (state) => {
+        state.createCollectionStatus = STATUS.SUCCEEDED
+        state.createCollectionError = null
+      })
+      .addCase(createCollectionAction.rejected, (state, action) => {
+        state.createCollectionStatus = STATUS.FAILED
+        state.createCollectionError = action.error.message
+      })
+
+      // get USER Collections
+      .addCase(getUserCollectionsList.pending, (state) => {
+        state.getUserCollectionStatus = STATUS.PENDING
+        state.getUserCollectionError = null
+      })
+      .addCase(getUserCollectionsList.fulfilled, (state, action) => {
+        state.getUserCollectionStatus = STATUS.SUCCEEDED
+        state.getUserCollectionError = null
+        state.collectionsData = action.payload
+      })
+      .addCase(getUserCollectionsList.rejected, (state, action) => {
+        state.getUserCollectionStatus = STATUS.FAILED
+        state.getUserCollectionError = action.error.message
       })
   },
 })

@@ -87,40 +87,38 @@ const Auth = {
 }
 
 
-// const Posts = {
-//   Title: {
-//     required,
-//     minLength: {
-//       value: 3,
-//       message: 'Минимум 3 символа',
-//     },
-//     maxLength: {
-//       value: 100,
-//       message: 'Максимум 100 символов',
-//     },
-//   },
-//   Description: {
-//     minLength: {
-//       value: 3,
-//       message: 'Минимум 3 символа',
-//     },
-//     maxLength: {
-//       value: 3000,
-//       message: 'Максимум 3000 символов',
-//     },
-//   },
-//   Location: {
-//     maxLength: {
-//       value: 50,
-//       message: 'Максимум 50 символов',
-//     },
-//   },
-//   Images: {
-//     required,
-//   },
-// }
+const Posts = {
+  Title: {
+    required: 'Required field',
+    minLength: {
+      value: 3,
+      message: 'Минимум 3 символа',
+    },
+    maxLength: {
+      value: 100,
+      message: 'Максимум 100 символов',
+    },
+  },
+  Description: {
+    minLength: {
+      value: 3,
+      message: 'Минимум 3 символа',
+    },
+    maxLength: {
+      value: 3000,
+      message: 'Максимум 3000 символов',
+    },
+  },
+  Required: {
+    required: 'Required field',
+    minLength: {
+      value: 1,
+      message: 'Minimum 1 characters',
+    },
+  },
+}
 
 export const Rules = {
   Auth,
-  // Posts,
+  Posts,
 }
