@@ -1,54 +1,70 @@
-// import React from 'react'
+import React from 'react'
 
-// import { serverbase } from 'api'
-// import { useParams } from 'react-router-dom'
-// import { useSelector } from 'react-redux'
-// import { BOOL_STATUS } from 'store/statuses'
+import { pocketbase, serverbase } from 'api'
+import { useParams } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { BOOL_STATUS } from 'store/statuses'
+import { getUserAction } from 'store/slices/user'
+import { decodeJWT } from 'hooks/idDecodeJWT'
 
-// export const useWatchingUser = () => {
-//   const [watchingUser, setWatchingUser] = React.useState(null)
-//   const [isLoadingWatchingUser, setIsLoadingWatchingUser] = React.useState(false)
-//   const [isMyProfile, setIsMyProfile] = React.useState(BOOL_STATUS.UNKNOWN)
+export const useWatchingUser = () => {
+  const [currentUser, setCurrentUser] = React.useState(null)
+  const [isLoadingWatchingUser, setIsLoadingWatchingUser] = React.useState(false)
+  const [isMyProfile, setIsMyProfile] = React.useState(BOOL_STATUS.UNKNOWN)
+  const access_auth = localStorage.getItem('access_auth')
 
-//   const { user: currentUser } = useSelector(s => s.User)
+  const dispatch = useDispatch()
 
-//   const { id } = useParams()
+  const { userData } = useSelector(s => s.User)
 
-//   const getWatchingUser = React.useCallback(async (userId) => {
-//     setIsLoadingWatchingUser(true)
+  React.useEffect(() => {
+    if (!access_auth) return
 
-//     try {
-//       const { data } = await serverbase.get(`/users/${userId}`)
+    if (!userData) {
+      const user_id = decodeJWT(access_auth)
+      dispatch(getUserAction(user_id))
+    }
+  }, [userData, access_auth])
 
-//       setWatchingUser(data)
-//     } catch (error) {
-//       console.log(error)
-//     } finally {
-//       setIsLoadingWatchingUser(false)
-//     }
-//   }, [setIsLoadingWatchingUser])
+  const { id } = useParams()
+  const watchingUser = userData
 
-//   React.useEffect(() => {
-//     if (!id) return
 
-//     getWatchingUser(id)
-//   }, [id])
+  const getWatchingUser = React.useCallback(async (userId) => {
+    setIsLoadingWatchingUser(true)
 
-//   React.useEffect(() => {
-//     if (!currentUser) return
-//     if (!watchingUser) return
+    try {
+      const { data } = await serverbase.get(`/users/${userId}/`)
 
-//     if (currentUser.id === watchingUser.id) {
-//       setIsMyProfile(BOOL_STATUS.TRUE)
-//     } else {
-//       setIsMyProfile(BOOL_STATUS.FALSE)
-//     }
-//   }, [setIsMyProfile, watchingUser, currentUser])
+      setCurrentUser(data)
+    } catch (error) {
+      console.log(error)
+    } finally {
+      setIsLoadingWatchingUser(false)
+    }
+  }, [setIsLoadingWatchingUser])
 
-//   return {
-//     isMyProfile,
-//     watchingUser,
-//     currentUser,
-//     isLoadingWatchingUser,
-//   }
-// }
+  React.useEffect(() => {
+    if (!id) return
+
+    getWatchingUser(id)
+  }, [id])
+
+  React.useEffect(() => {
+    if (!watchingUser) return
+    if (!currentUser) return
+
+    if (watchingUser.id === currentUser.id) {
+      setIsMyProfile(BOOL_STATUS.TRUE)
+    } else {
+      setIsMyProfile(BOOL_STATUS.FALSE)
+    }
+  }, [setIsMyProfile, currentUser, watchingUser])
+
+  return {
+    isMyProfile,
+    currentUser,
+    watchingUser,
+    isLoadingWatchingUser,
+  }
+}

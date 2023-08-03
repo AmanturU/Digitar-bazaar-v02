@@ -8,9 +8,13 @@ const initialState = {
   // user
   user_id: null,
   userData: null,
+  userForNFTData: null,
 
   getUserStatus: STATUS.IDLE,
   getUserError: null,
+
+  getUserNFTStatus: STATUS.IDLE,
+  getUserNFTError: null,
 
   updateUserStatus: STATUS.IDLE,
   updateUserError: null,
@@ -27,6 +31,10 @@ const initialState = {
   collectionsData: null,
   getUserCollectionStatus: STATUS.IDLE,
   getUserCollectionError: null,
+
+  nftDataWithFilter: null,
+  getUserNftListByIdStatus: STATUS.IDLE,
+  getUserNftListByIdError: null,
 }
 
 export const getUserAction = createAsyncThunk('users/getOne', async (userId) => {
@@ -38,16 +46,35 @@ export const getUserAction = createAsyncThunk('users/getOne', async (userId) => 
   }
 })
 
-export const getUserCollectionsList = createAsyncThunk('user/collections', async (userId) => {
+export const getUserActionForNFT = createAsyncThunk('users/getForNft', async (userId) => {
   try {
-    const { data } = await serverbase.get('/collections_nft/')
-    // const userCollections = data.filter((collection) => collection.owner === userId)
+    const { data } = await serverbase.get(`/users/${userId}/`)
     return data
   } catch (error) {
     throw new Error(Object.values(error.response.data.data)[0].message)
   }
 })
 
+export const getUserCollectionsList = createAsyncThunk('user/collections', async (userId) => {
+  try {
+    const { data } = await serverbase.get('/collections_nft/')
+    const userCollections = data.filter((collection) => collection.owner === userId)
+    console.log(data)
+    return userCollections
+  } catch (error) {
+    throw new Error(Object.values(error.response.data.data)[0].message)
+  }
+})
+
+export const getUserNftListById = createAsyncThunk('user/nftById', async (userId) => {
+  try {
+    const { data } = await serverbase.get('/nft/')
+    const filteredArray = data.filter((item) => item.author === userId)
+    return filteredArray
+  } catch (error) {
+    throw new Error(Object.values(error.response.data.data)[0].message)
+  }
+})
 
 export const updateUserAction = createAsyncThunk('users/update', async ({ userId, formData }) => {
   try {
@@ -102,7 +129,6 @@ export const createItemAction = createAsyncThunk(
     Object.entries(data).forEach(([key, value]) => {
       formData.append(key, value)
       formData.append('image', image)
-      formData.append('collection_id', 1)
     })
 
     try {
@@ -188,6 +214,20 @@ export const userSlice = createSlice({
         state.getUserStatus = STATUS.FAILED
         state.getUserError = action.error.message
       })
+      // get USER action
+      .addCase(getUserActionForNFT.pending, (state) => {
+        state.getUserNFTStatus = STATUS.PENDING
+        state.getUserNFTError = null
+      })
+      .addCase(getUserActionForNFT.fulfilled, (state, action) => {
+        state.getUserNFTStatus = STATUS.SUCCEEDED
+        state.getUserNFTError = null
+        state.userForNFTData = action.payload
+      })
+      .addCase(getUserActionForNFT.rejected, (state, action) => {
+        state.getUserNFTStatus = STATUS.FAILED
+        state.getUserNFTError = action.error.message
+      })
 
       // update USER action
       .addCase(updateUserAction.pending, state => {
@@ -260,6 +300,21 @@ export const userSlice = createSlice({
       .addCase(getUserCollectionsList.rejected, (state, action) => {
         state.getUserCollectionStatus = STATUS.FAILED
         state.getUserCollectionError = action.error.message
+      })
+
+      // get USER nft by id
+      .addCase(getUserNftListById.pending, (state) => {
+        state.getUserNftListByIdStatus = STATUS.PENDING
+        state.getUserNftListByIdError = null
+      })
+      .addCase(getUserNftListById.fulfilled, (state, action) => {
+        state.getUserNftListByIdStatus = STATUS.SUCCEEDED
+        state.getUserNftListByIdError = null
+        state.nftDataWithFilter = action.payload
+      })
+      .addCase(getUserNftListById.rejected, (state, action) => {
+        state.getUserNftListByIdStatus = STATUS.FAILED
+        state.getUserNftListByIdError = action.error.message
       })
   },
 })

@@ -9,7 +9,7 @@ import MainPage from './pages/Main'
 // import ChooseSellTypePage from './pages/ChooseSellType'
 // import CreateCollectionPage from './pages/CreateCollection'
 import DropzoneComponent from './components/dragndrop'
-import NFTDetailsPage from './pages/NFTDetails'
+import NFTDetailsPage from './pages/Users/NFTDetails'
 import { UsersRoutes } from 'pages/Users/Routes'
 import CreateRoutes from 'pages/Create/Routes'
 

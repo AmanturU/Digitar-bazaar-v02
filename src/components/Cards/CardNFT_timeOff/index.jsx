@@ -47,6 +47,15 @@ const CardNftTimeOff = () => {
     },
   }
 
+  // const basicBoxStyles = {
+  //   width: '310px',
+  //   height: '400px',
+  //   background: 'url(https://cdn.pixabay.com/photo/2022/03/01/02/51/galaxy-7040416_1280.png) center/cover no-repeat',
+  //   color: 'white',
+  //   flexShrink: 0,
+  // },
+
+
   return (
     <Box sx={nftCardStyles.basicBoxStyles} borderRadius={'2xl'} maxW={'md'} >
       <Flex flexDirection="column" justifyContent="flex-end" h="100%">

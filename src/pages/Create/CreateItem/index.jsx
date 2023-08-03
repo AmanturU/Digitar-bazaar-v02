@@ -117,11 +117,10 @@ const CreateItemPage = () => {
   }, [])
   const { collectionsData } = useSelector(s => s.User)
   const filteredCollections = collectionsData && collectionsData.filter((collection) => collection.owner === decodeJWT(access_auth))
-  console.log(filteredCollections)
   const handleMethodSelect = (method) => {
     setSelectedMethod(method)
   }
-
+  console.log(filteredCollections)
   const {
     register,
     handleSubmit,
@@ -411,9 +410,11 @@ const CreateItemPage = () => {
                 </Popover>
               </Flex>
 
-              <Select>
-                {collectionsData && filteredCollections.map((collection) => (
-                  <option key={collection.id} value={collection.id}>
+              <Select {...register('collection_id')}>
+                {filteredCollections && filteredCollections.map((collection) => (
+                  <option
+                    key={collection.id}
+                    value={collection.id}>
                     {collection.title}
                   </option>
                 ))}

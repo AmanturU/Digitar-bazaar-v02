@@ -68,11 +68,14 @@ const MainLayout = (props) => {
     fontWeight: '400',
     lineHeight: '21px',
   }
+  const BoxFill = {
+    background: '#f5f7fa',
+  }
 
 
 
   return (
-    <Box w={'full'} h={'full'} m={0} p={0} >
+    <Box w={'full'} h={'full'} m={0} p={0} backgroundColor={'#e3e3e3'}>
       {/* Header */}
       <Box sx={basicBoxStyles}  >
         <Box h={'full'} backdropFilter="auto"
